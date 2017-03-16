@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIClient {
 
-    private static final String BASE_URL = "Your Server Basic url";
+    private static final String BASE_URL = "http://vegetables.shopostreet.in/RestAPI/v1/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {
@@ -21,9 +21,9 @@ public class APIClient {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
 
-//        httpClient.connectTimeout(2, TimeUnit.MINUTES);
-//        httpClient.readTimeout(2, TimeUnit.MINUTES);
-//        httpClient.writeTimeout(2, TimeUnit.MINUTES);
+        httpClient.connectTimeout(2, TimeUnit.MINUTES);
+        httpClient.readTimeout(2, TimeUnit.MINUTES);
+        httpClient.writeTimeout(2, TimeUnit.MINUTES);
 
         Gson gson = new GsonBuilder()
                 .setLenient()
