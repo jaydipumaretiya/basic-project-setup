@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.basic.project.R
 import app.basic.project.model.User
 import app.basic.project.network.RetrofitBuilder
+import app.basic.project.ui.base.ViewModelFactory
 import app.basic.project.util.Status
 import app.basic.project.viewmodel.MainViewModel
-import app.basic.project.ui.base.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
+        viewModel = ViewModelProvider(
             this,
             ViewModelFactory(RetrofitBuilder.apiInterface)
         ).get(MainViewModel::class.java)
