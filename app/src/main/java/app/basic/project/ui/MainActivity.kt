@@ -8,21 +8,23 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.basic.project.R
+import app.basic.project.databinding.ActivityMainBinding
 import app.basic.project.model.User
 import app.basic.project.network.RetrofitBuilder
 import app.basic.project.ui.base.ViewModelFactory
 import app.basic.project.util.Status
 import app.basic.project.viewmodel.MainViewModel
-import kotlinx.android.synthetic.main.activity_main.*
+import app.basic.project.ui.base.delegate.viewBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
+    private val binding by viewBinding(ActivityMainBinding::inflate)
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: MainAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
         setupViewModel()
         setupUI()
         setupObservers()
@@ -37,15 +39,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = MainAdapter(arrayListOf())
-        recyclerView.addItemDecoration(
+        binding.recyclerView.addItemDecoration(
             DividerItemDecoration(
-                recyclerView.context,
-                (recyclerView.layoutManager as LinearLayoutManager).orientation
+                binding.recyclerView.context,
+                (binding.recyclerView.layoutManager as LinearLayoutManager).orientation
             )
         )
-        recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter
     }
 
     private fun setupObservers() {
@@ -53,18 +55,18 @@ class MainActivity : AppCompatActivity() {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
-                        recyclerView.visibility = View.VISIBLE
-                        progressBar.visibility = View.GONE
+                        binding.recyclerView.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.GONE
                         resource.data?.let { users -> retrieveList(users) }
                     }
                     Status.ERROR -> {
-                        recyclerView.visibility = View.VISIBLE
-                        progressBar.visibility = View.GONE
+                        binding.recyclerView.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.GONE
                         Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                     }
                     Status.LOADING -> {
-                        progressBar.visibility = View.VISIBLE
-                        recyclerView.visibility = View.GONE
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.recyclerView.visibility = View.GONE
                     }
                 }
             }
